@@ -26,33 +26,54 @@ void drawLine(float p1[],float p2[])
 }
 
 drawSquare(Square sq){
-    drawLine(sq.p1,sq.p2);
-    drawLine(sq.p2,sq.p3);
-    drawLine(sq.p3,sq.p4);
-    drawLine(sq.p1,sq.p4);
+    float p1[] ={-(sq.size)/2,(sq.size)/2};
+    float p2[] ={(sq.size)/2,(sq.size)/2};
+    float p3[] ={(sq.size)/2,-(sq.size)/2};
+    float p4[] ={-(sq.size)/2,-(sq.size)/2};
+    
+    drawLine(p1,p2);
+    drawLine(p2,p3);
+    drawLine(p3,p4);
+    drawLine(p4,p1);
 }
 void display() {
     
+    glMatrixMode(GL_MODELVIEW);
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    Square face(1,1,0);
-    Square eye1(0.1,0.1,0);
-    Square eye2(0.1,0.1,0);
-    Square nose(0.1,0.1,0);
-    Square lips(0.1,0.5,0);
+    Square face(1);
+    Square eye1(0.1);
+    Square eye2(0.1);
+    Square nose(0.1);
+    Square lips(0.1);
 
-
-    face=face.rotate(45*(PI/180));
-    nose=nose.rotate(45*(PI/180));
-    lips.shift(0,-0.2);
-    eye1.shift(-0.25,0.2);
-    eye2.shift(0.25,0.2);
+    glPushMatrix();
+    glRotatef(45,0,0,1);
     drawSquare(face);
-    drawSquare(eye1);
-    drawSquare(eye2);
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(45,0,0,1);
     drawSquare(nose);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-0.25,0.2,0);
+    drawSquare(eye1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.25,0.2,0);
+    drawSquare(eye2);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,-0.2,0);
+    glScalef(5,1,1);
     drawSquare(lips);
+    glPopMatrix();
+
     glFlush();
 
 }
